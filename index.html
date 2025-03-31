@@ -1,22 +1,201 @@
-<html lang="zh">
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
-	<title>動畫瘋·Plus - 非官方插件</title>
-	<meta charset="utf-8">
-	<meta http-equiv="x-ua-compatible" content="IE=edge">
-	<meta name="Description" content="來自greasyfork上的動畫瘋·Plus，此插件設計是為了給短時間大量補番的人使用的，如果您覺得此插件好用，請付費支持動畫瘋讓此插件能持續為本平台服務，功能有分級標識自動同意、自動切換至下一集、影片空降座標、網頁全螢幕、子母畫面、影片截圖錄影、右鍵選取彈幕。">
-	<meta name="referrer" content="origin">
-	<meta property="og:title" content="動畫瘋·Plus">
-	<meta property="og:description" content="來自greasyfork上的動畫瘋·Plus，此插件設計是為了給短時間大量補番的人使用的，如果您覺得此插件好用，請付費支持動畫瘋讓此插件能持續為本平台服務，功能有分級標識自動同意、自動切換至下一集、影片空降座標、網頁全螢幕、子母畫面、影片截圖錄影、右鍵選取彈幕。">
-	<meta property="og:type" content="website">
-	<meta property="og:image" content="https://lh3.googleusercontent.com/wQYs50kRlaIpZfkcQDfCtYThgMCQTkKaXCnQgJgFHO3oMpDfS5vnxD3Q0X8ZshaX639_MwjTrWTS_LGLqqw9n2Vgaw=w128-h128-e365-rj-sc0x00ffffff">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/ico" href="">
-	<link rel="icon" href="" sizes="48x48">
-	<style nonce="">
-	
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動畫瘋 Plus 擴充功能介紹</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+      position: relative;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: #2e2f31;
+      color: white;
+    }
+    .content_head_box {
+      display: flex;
+      align-items: center;
+    }
+    .content_head_box .img {
+      margin-right: 10px;
+    }
+    .content_head_box .title span {
+      padding: 2px 6px;
+      font-weight: bold;
+    }
+    .install-button {
+      background: #56b7c1;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .install-button-link {
+      text-decoration: none;
+    }
+    .carousel {
+      width: 100%;
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .caption-box {
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-align: center;
+      padding: 15px 20px;
+      font-size: 1.2em;
+      width: 100%;
+      z-index: 10;
+    }
+    .nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 20;
+    }
+    .nav button {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 10px 15px;
+      cursor: pointer;
+      pointer-events: all;
+    }
+  </style>
 </head>
 <body>
-施工中...
+  <div class="container">
+    <div class="header-bar">
+      <div class="content_head_box">
+        <div class="img">
+          <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/48.png" width="36px" height="36px"> 
+        </div>
+        <div class="title">
+          <span style="color: #fff;background: #56b7c1;">動</span>
+          <span style="color: #fff;background: #EB9D3D;transform: translateY(-2px);display: inline-block;">畫</span>
+          <span style="color: #fff;background: #E57B94;transform: rotate(-5deg);display: inline-block;">瘋</span>
+          <span style="margin: 0px 0px 0px 2px;">·Plus</span>
+        </div>
+      </div>
+      <a class="install-button-link" href="https://chromewebstore.google.com/detail/%E5%8B%95%E7%95%AB%E7%98%8B%C2%B7Plus/jkpkmeimgkhodlppajjgikfcodlilmpd" target="_blank" rel="noopener">
+        <button class="install-button">前往安裝</button>
+      </a>
+    </div>
+
+    <div class="carousel" id="carousel">
+      <div class="slide active">
+        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/1.png" alt="真・闇黑模式">
+      </div>
+      <div class="slide">
+        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/2.png" alt="截圖功能">
+      </div>
+      <div class="slide">
+        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/3.png" alt="子母畫面">
+      </div>
+      <div class="slide">
+        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/4.png" alt="彈幕工具">
+      </div>
+
+      <div class="nav">
+        <button onclick="prevSlide()">❮</button>
+        <button onclick="nextSlide()">❯</button>
+      </div>
+    </div>
+
+    <div class="caption-box" id="captionBox">
+      真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const captionBox = document.getElementById('captionBox');
+
+    const captions = [
+      "真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。",
+      "截圖功能：收藏精彩瞬間，支援彈幕、Logo、資訊的加入與多樣化操作。",
+      "子母畫面：全新子母畫面支援彈幕同步觀看，畫面不中斷，多工更方便。",
+      "彈幕工具：可複製、編輯、過濾彈幕文字，甚至消音用戶，提升觀影體驗。"
+    ];
+
+    let currentIndex = 0;
+    let intervalId;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      captionBox.textContent = captions[index];
+    }
+
+    function restartInterval() {
+      clearInterval(intervalId);
+      intervalId = setInterval(nextSlide, 6000);
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      showSlide(currentIndex);
+      restartInterval();
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      showSlide(currentIndex);
+      restartInterval();
+    }
+
+    intervalId = setInterval(nextSlide, 6000);
+  </script>
 </body>
 </html>
