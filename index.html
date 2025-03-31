@@ -54,9 +54,20 @@
       font-size: 1rem;
       border-radius: 5px;
       cursor: pointer;
+      margin-left: 10px;
     }
     .install-button-link {
       text-decoration: none;
+    }
+    .content-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .carousel {
       width: 100%;
@@ -117,6 +128,55 @@
       cursor: pointer;
       pointer-events: all;
     }
+    .update-log {
+      background: #f5f5f5;
+      padding: 20px;
+      color: #333;
+      font-size: 0.95em;
+      line-height: 1.6;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+    .update-log h2 {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #222;
+    }
+    .timeline {
+      position: relative;
+      margin-left: 20px;
+      padding-left: 20px;
+      border-left: 2px solid #ccc;
+    }
+    .timeline-item {
+      margin-bottom: 10px;
+      border-left: 4px solid #56b7c1;
+      padding-left: 10px;
+    }
+    .timeline-item summary {
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+      list-style: none;
+    }
+    .timeline-item[open] summary::before {
+      content: "▼ ";
+    }
+    .timeline-item summary::before {
+      content: "▶ ";
+    }
+    .back-button {
+      align-self: flex-start;
+      margin-bottom: 10px;
+      padding: 6px 12px;
+      background: #2e2f31;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -130,33 +190,100 @@
           <span style="color: #fff;background: #56b7c1;">動</span><span style="color: #fff;background: #EB9D3D;transform: translateY(-2px);display: inline-block;">畫</span><span style="color: #fff;background: #E57B94;transform: rotate(-5deg);display: inline-block;">瘋</span><span style="margin-left: 2px;">·Plus</span>
         </div>
       </div>
-      <a class="install-button-link" href="https://chromewebstore.google.com/detail/%E5%8B%95%E7%95%AB%E7%98%8B%C2%B7Plus/jkpkmeimgkhodlppajjgikfcodlilmpd" target="_blank" rel="noopener">
-        <button class="install-button">前往安裝</button>
-      </a>
-    </div>
-
-    <div class="carousel" id="carousel">
-      <div class="slide active">
-        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/1.png" alt="真・闇黑模式">
-      </div>
-      <div class="slide">
-        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/2.png" alt="截圖功能">
-      </div>
-      <div class="slide">
-        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/3.png" alt="子母畫面">
-      </div>
-      <div class="slide">
-        <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/4.png" alt="彈幕工具">
-      </div>
-
-      <div class="nav">
-        <button onclick="prevSlide()">❮</button>
-        <button onclick="nextSlide()">❯</button>
+      <div>
+        <a class="install-button-link" href="https://chromewebstore.google.com/detail/%E5%8B%95%E7%95%AB%E7%98%8B%C2%B7Plus/jkpkmeimgkhodlppajjgikfcodlilmpd" target="_blank" rel="noopener">
+          <button class="install-button">前往安裝</button>
+        </a>
+        <button class="install-button" onclick="showUpdateLog()">版本紀錄</button>
       </div>
     </div>
 
-    <div class="caption-box" id="captionBox">
-      真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。
+    <div class="content-section" id="mainView">
+      <div class="main-content">
+        <div class="carousel" id="carousel">
+          <div class="slide active">
+            <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/1.png" alt="真・闇黑模式">
+          </div>
+          <div class="slide">
+            <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/2.png" alt="截圖功能">
+          </div>
+          <div class="slide">
+            <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/3.png" alt="子母畫面">
+          </div>
+          <div class="slide">
+            <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/4.png" alt="彈幕工具">
+          </div>
+
+          <div class="nav">
+            <button onclick="prevSlide()">❮</button>
+            <button onclick="nextSlide()">❯</button>
+          </div>
+        </div>
+
+        <div class="caption-box" id="captionBox">
+          真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。
+        </div>
+      </div>
+    </div>
+
+    <div class="update-log" id="updateLog">
+      <button class="back-button" onclick="backToMain()">← 返回</button>
+      <h2>版本更新</h2>
+      <div class="timeline">
+<details class="timeline-item">
+  <summary>v3.13.8</summary>
+  <div>修正特定原因造成截圖功能無法使用的情況、修正啟用真●闇黑模式時，播放頁下方Facebook留言無法套用真●闇黑模式、修正未啟動自動同意分級警告時，播放其它集數會進入播放、調整子母畫面的CSS、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.7</summary>
+  <div>取消截圖的彈幕文字陰影、支援錄影加入彈幕時的文字透明度、修改錄影加入Logo時對每個解析度保持相同大小。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.6</summary>
+  <div>修改錄影加入彈幕的文字速度、修改錄影加入資訊的文字大小、修改截圖錄影的彈幕邊框邊框清晰度、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.4</summary>
+  <div>修正彈幕軌跡顯示器必須要開啟過濾關鍵字Plus才會顯示的問題、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.3</summary>
+  <div>錄影功能新增說明描述、其它雜項修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.1</summary>
+  <div>彈幕戰力儀 更名為「彈幕軌跡顯示器」、調整錄影功能加入彈幕時的文字清晰度、其它雜項修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.13.0</summary>
+  <div>重新設計錄影擷取彈幕的功能，從這個版本開始，錄影加入彈幕時不會越斗越嚴重、錄影功能新增了畫面解析度選項、其它雜項修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.12.0</summary>
+  <div>使用新型子母畫面API(測試版，Google Chrome瀏覽器版本需123(含)以上才可使用)，從這個版本開始，可以在子母畫面啟動彈幕、其它雜項修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.11.0</summary>
+  <div>自動切換至下一集 更名為「播畢後接續下一集」、過濾關鍵字 (擴充版) 更名為「過濾關鍵字 Plus」、修正過濾關鍵字Plus失效的問題、更新播畢後接續下一集功能、刪除網頁全螢幕功能、其它雜項修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.10.2</summary>
+  <div>修正已關閉自動跳到下一集時還會跳到下一集的錯誤、修正錄影功能失效的問題、修正進入網頁全螢幕時彈幕錯位的問題、修正真●闇黑模式、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.10.0</summary>
+  <div>截圖工具新增擷取封面圖功能、修改QRCode顯示方式、動畫瘋已新增顯示彈幕快捷鍵，因此移除動畫瘋·Plus顯示彈幕快捷鍵、修正過濾關鍵字(擴充版)新增關鍵字時沒更新播放器內的彈幕、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.9.1</summary>
+  <div>修正在高解析度下截圖時造成擷取畫面不完整、修正過濾關鍵字(擴充版)在刪除最後一個關鍵字時沒更新播放器內的彈幕、其它小修改。</div>
+</details>
+<details class="timeline-item">
+  <summary>v3.9.0</summary>
+  <div>新增過濾關鍵字(擴充版)、優化截圖&錄影工具、新增截圖錄影 加入資訊功能，此功能內含節目名稱及目前影片播放時間、此版本可在非全螢幕下截圖時解析度為1920x1080、其它小修改。</div>
+</details>
+
+      </div>
     </div>
   </div>
 
@@ -164,6 +291,19 @@
     const slides = document.querySelectorAll('.slide');
     const captionBox = document.getElementById('captionBox');
     const carousel = document.getElementById('carousel');
+
+    const mainView = document.getElementById('mainView');
+    const updateLog = document.getElementById('updateLog');
+
+    function showUpdateLog() {
+      mainView.style.display = 'none';
+      updateLog.style.display = 'flex';
+    }
+
+    function backToMain() {
+      updateLog.style.display = 'none';
+      mainView.style.display = 'flex';
+    }
 
     const captions = [
       "真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。",
