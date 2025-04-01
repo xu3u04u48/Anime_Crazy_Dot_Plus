@@ -40,11 +40,14 @@
     }
     .content_head_box .title {
       display: flex;
+	  font-size: 18px;
     }
     .content_head_box .title span {
       padding: 2px 6px;
       font-weight: bold;
-      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .install-button {
       background: #56b7c1;
@@ -108,6 +111,9 @@
       font-size: 1.2em;
       width: 100%;
       z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .nav {
       position: absolute;
@@ -127,79 +133,6 @@
       padding: 10px 15px;
       cursor: pointer;
       pointer-events: all;
-    }
-    .update-log {
-      background: #f5f5f5;
-      padding: 20px;
-      color: #333;
-      font-size: 0.95em;
-      line-height: 1.6;
-      overflow-y: auto;
-      display: none;
-      flex-direction: column;
-      height: 100%;
-    }
-    .update-log h2 {
-      font-size: 1.1em;
-      margin-bottom: 20px;
-      color: #222;
-    }
-    .timeline {
-      position: relative;
-      margin: 40px;
-      padding-left: 30px;
-      border-left: 3px solid #ccc;
-    }
-    .timeline-item {
-      display: flex;
-      position: relative;
-      margin-bottom: 30px;
-      align-items: center;
-      flex-direction: column;
-    }
-    .timeline-icon {
-      position: absolute;
-      left: -38px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
-      background-color: #56b7c1;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      box-shadow: 0 0 0 4px #56b7c1;
-    }
-    .timeline-box {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-    }
-    .timeline-version {
-      background-color: #a069c3;
-      color: white;
-      padding: 20px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 130px;
-      font-size: 1rem;
-    }
-    .timeline-description {
-      color: #333;
-      width: 100%;
-      display: none;
-      align-items: center;
-    }
-    .timeline-item.open .timeline-description {
-      display: flex;
-    }
-    .timeline-item.open .timeline-box {
-      box-shadow: 0 0 0 3px #56b7c1;
     }
     .back-button {
       align-self: flex-start;
@@ -254,7 +187,7 @@
         </div>
 
         <div class="caption-box" id="captionBox">
-          真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。
+          真・闇黑模式：全面黑化介面，降低眼睛負擔，深夜追番更舒適。
         </div>
       </div>
     </div>
@@ -286,11 +219,11 @@ document.addEventListener('click', (e) => {
   }
 
   const captions = [
-    "真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。",
-    "截圖功能：收藏精彩瞬間，支援彈幕、Logo、資訊的加入與多樣化操作。",
-    "子母畫面：全新子母畫面支援彈幕同步觀看，畫面不中斷，多工更方便。",
-    "彈幕工具：可複製、編輯、過濾彈幕文字，甚至消音用戶，提升觀影體驗。"
-  ];
+  "真・闇黑模式：全面黑化介面，降低眼睛負擔，深夜追番更舒適。",
+  "截圖功能：一鍵截圖精彩畫面，自訂加入彈幕、Logo 與影片資訊。",
+  "子母畫面：支援彈幕同步，邊看動畫邊做事，多工模式超順暢。",
+  "彈幕工具：編輯、複製、過濾彈幕，還能消音特定用戶，觀影更自在。"
+	];
 
   let currentIndex = 0;
   let intervalId;
