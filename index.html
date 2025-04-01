@@ -146,26 +146,60 @@
     }
     .timeline {
       position: relative;
-      margin-left: 20px;
-      padding-left: 20px;
-      border-left: 2px solid #ccc;
+      margin: 40px;
+      padding-left: 30px;
+      border-left: 3px solid #ccc;
     }
     .timeline-item {
-      margin-bottom: 10px;
-      border-left: 4px solid #56b7c1;
-      padding-left: 10px;
+      display: flex;
+      position: relative;
+      margin-bottom: 30px;
+      align-items: center;
+      flex-direction: column;
     }
-    .timeline-item summary {
-      cursor: pointer;
+    .timeline-icon {
+      position: absolute;
+      left: -38px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      background-color: #56b7c1;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 0 0 4px #56b7c1;
+    }
+    .timeline-box {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .timeline-version {
+      background-color: #a069c3;
+      color: white;
+      padding: 20px;
       font-weight: bold;
-      color: #000;
-      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 130px;
+      font-size: 1rem;
     }
-    .timeline-item[open] summary::before {
-      content: "▼ ";
+    .timeline-description {
+      color: #333;
+      width: 100%;
+      display: none;
+      align-items: center;
     }
-    .timeline-item summary::before {
-      content: "▶ ";
+    .timeline-item.open .timeline-description {
+      display: flex;
+    }
+    .timeline-item.open .timeline-box {
+      box-shadow: 0 0 0 3px #56b7c1;
     }
     .back-button {
       align-self: flex-start;
@@ -194,7 +228,6 @@
         <a class="install-button-link" href="https://chromewebstore.google.com/detail/%E5%8B%95%E7%95%AB%E7%98%8B%C2%B7Plus/jkpkmeimgkhodlppajjgikfcodlilmpd" target="_blank" rel="noopener">
           <button class="install-button">前往安裝</button>
         </a>
-        <button class="install-button" onclick="showUpdateLog()">版本紀錄</button>
       </div>
     </div>
 
@@ -225,146 +258,109 @@
         </div>
       </div>
     </div>
-
-    <div class="update-log" id="updateLog">
-      <button class="back-button" onclick="backToMain()">← 返回</button>
-      <h2>版本更新</h2>
-      <div class="timeline">
-<details class="timeline-item">
-  <summary>v3.13.8</summary>
-  <div>修正特定原因造成截圖功能無法使用的情況、修正啟用真●闇黑模式時，播放頁下方Facebook留言無法套用真●闇黑模式、修正未啟動自動同意分級警告時，播放其它集數會進入播放、調整子母畫面的CSS、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.7</summary>
-  <div>取消截圖的彈幕文字陰影、支援錄影加入彈幕時的文字透明度、修改錄影加入Logo時對每個解析度保持相同大小。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.6</summary>
-  <div>修改錄影加入彈幕的文字速度、修改錄影加入資訊的文字大小、修改截圖錄影的彈幕邊框邊框清晰度、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.4</summary>
-  <div>修正彈幕軌跡顯示器必須要開啟過濾關鍵字Plus才會顯示的問題、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.3</summary>
-  <div>錄影功能新增說明描述、其它雜項修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.1</summary>
-  <div>彈幕戰力儀 更名為「彈幕軌跡顯示器」、調整錄影功能加入彈幕時的文字清晰度、其它雜項修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.13.0</summary>
-  <div>重新設計錄影擷取彈幕的功能，從這個版本開始，錄影加入彈幕時不會越斗越嚴重、錄影功能新增了畫面解析度選項、其它雜項修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.12.0</summary>
-  <div>使用新型子母畫面API(測試版，Google Chrome瀏覽器版本需123(含)以上才可使用)，從這個版本開始，可以在子母畫面啟動彈幕、其它雜項修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.11.0</summary>
-  <div>自動切換至下一集 更名為「播畢後接續下一集」、過濾關鍵字 (擴充版) 更名為「過濾關鍵字 Plus」、修正過濾關鍵字Plus失效的問題、更新播畢後接續下一集功能、刪除網頁全螢幕功能、其它雜項修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.10.2</summary>
-  <div>修正已關閉自動跳到下一集時還會跳到下一集的錯誤、修正錄影功能失效的問題、修正進入網頁全螢幕時彈幕錯位的問題、修正真●闇黑模式、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.10.0</summary>
-  <div>截圖工具新增擷取封面圖功能、修改QRCode顯示方式、動畫瘋已新增顯示彈幕快捷鍵，因此移除動畫瘋·Plus顯示彈幕快捷鍵、修正過濾關鍵字(擴充版)新增關鍵字時沒更新播放器內的彈幕、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.9.1</summary>
-  <div>修正在高解析度下截圖時造成擷取畫面不完整、修正過濾關鍵字(擴充版)在刪除最後一個關鍵字時沒更新播放器內的彈幕、其它小修改。</div>
-</details>
-<details class="timeline-item">
-  <summary>v3.9.0</summary>
-  <div>新增過濾關鍵字(擴充版)、優化截圖&錄影工具、新增截圖錄影 加入資訊功能，此功能內含節目名稱及目前影片播放時間、此版本可在非全螢幕下截圖時解析度為1920x1080、其它小修改。</div>
-</details>
-
-      </div>
-    </div>
   </div>
 
-  <script>
-    const slides = document.querySelectorAll('.slide');
-    const captionBox = document.getElementById('captionBox');
-    const carousel = document.getElementById('carousel');
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const captionBox = document.getElementById('captionBox');
+  const carousel = document.getElementById('carousel');
+  const mainView = document.getElementById('mainView');
+  const updateLog = document.getElementById('updateLog');
+  
+  
+function backToMain() {
+  document.getElementById('updateLog').style.display = 'none';
+  document.getElementById('mainView').style.display = 'flex';
+}
 
-    const mainView = document.getElementById('mainView');
-    const updateLog = document.getElementById('updateLog');
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('timeline-header')) {
+    const item = e.target.closest('.timeline-item');
+    item.classList.toggle('open');
+  }
+});
 
-    function showUpdateLog() {
-      mainView.style.display = 'none';
-      updateLog.style.display = 'flex';
-    }
+  function backToMain() {
+    updateLog.style.display = 'none';
+    mainView.style.display = 'flex';
+  }
 
-    function backToMain() {
-      updateLog.style.display = 'none';
-      mainView.style.display = 'flex';
-    }
+  const captions = [
+    "真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。",
+    "截圖功能：收藏精彩瞬間，支援彈幕、Logo、資訊的加入與多樣化操作。",
+    "子母畫面：全新子母畫面支援彈幕同步觀看，畫面不中斷，多工更方便。",
+    "彈幕工具：可複製、編輯、過濾彈幕文字，甚至消音用戶，提升觀影體驗。"
+  ];
 
-    const captions = [
-      "真・闇黑模式：讓動畫瘋介面全面黑化，觀看更舒適，保護眼睛。",
-      "截圖功能：收藏精彩瞬間，支援彈幕、Logo、資訊的加入與多樣化操作。",
-      "子母畫面：全新子母畫面支援彈幕同步觀看，畫面不中斷，多工更方便。",
-      "彈幕工具：可複製、編輯、過濾彈幕文字，甚至消音用戶，提升觀影體驗。"
-    ];
+  let currentIndex = 0;
+  let intervalId;
 
-    let currentIndex = 0;
-    let intervalId;
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
-      });
-      captionBox.textContent = captions[index];
-    }
-
-    function restartInterval() {
-      clearInterval(intervalId);
-      intervalId = setInterval(nextSlide, 6000);
-    }
-
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % slides.length;
-      showSlide(currentIndex);
-      restartInterval();
-    }
-
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      showSlide(currentIndex);
-      restartInterval();
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
     });
+    captionBox.textContent = captions[index];
+  }
 
-    let startX = 0;
-    let isDragging = false;
-
-    carousel.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-    });
-
-    carousel.addEventListener('mouseup', (e) => {
-      if (!isDragging) return;
-      let endX = e.clientX;
-      if (startX - endX > 50) nextSlide();
-      else if (endX - startX > 50) prevSlide();
-      isDragging = false;
-    });
-
-    carousel.addEventListener('mouseleave', () => {
-      isDragging = false;
-    });
-
+  function restartInterval() {
+    clearInterval(intervalId);
     intervalId = setInterval(nextSlide, 6000);
-  </script>
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+    restartInterval();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+    restartInterval();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+  });
+
+  let startX = 0;
+  let isDragging = false;
+
+  carousel.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+  });
+
+  carousel.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    let endX = e.clientX;
+    if (startX - endX > 50) nextSlide();
+    else if (endX - startX > 50) prevSlide();
+    isDragging = false;
+  });
+
+  carousel.addEventListener('mouseleave', () => {
+    isDragging = false;
+  });
+  
+    // 手機觸控支援
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+
+  carousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 50) nextSlide();
+    else if (touchEndX - touchStartX > 50) prevSlide();
+  });
+  
+
+  intervalId = setInterval(nextSlide, 6000);
+</script>
+
 </body>
 </html>
