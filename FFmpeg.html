@@ -21,6 +21,7 @@
       logStatus('正在初始化 FFmpeg...');
       await ffmpeg.load();
       logStatus('等待資料傳入...');
+      window.parent.postMessage({ status: 'ready' }, '*');
     }
 
     // 等待 FFmpeg 可用後初始化
@@ -33,12 +34,12 @@
 
     window.addEventListener('message', async (event) => {
       if (!event.data || !event.data.command) return;
-
       const { command, data, fileName } = event.data;
       if (command === 'convert') {
         logStatus('正在轉檔...');
         try {
-          await ffmpeg.FS('writeFile', fileName, new Uint8Array(data));
+          const uint8Data = new Uint8Array(data);
+          await ffmpeg.FS('writeFile', fileName, uint8Data);
 
           const outputName = 'output.mp3';
           await ffmpeg.run('-i', fileName, '-vn', '-acodec', 'libmp3lame', '-q:a', '3', outputName);
@@ -48,10 +49,10 @@
           const url = URL.createObjectURL(blob);
 
           logStatus('轉檔完成');
-          window.parent.postMessage({ status: 'done', url, name: outputName }, event.origin);
+          window.parent.postMessage({ status: 'done', url, name: outputName }, '*');
         } catch (e) {
           console.error(e);
-          window.parent.postMessage({ status: 'error', message: e.message }, event.origin);
+          window.parent.postMessage({ status: 'error', message: e.message }, '*');
           logStatus('轉檔失敗：' + e.message);
         }
       }
