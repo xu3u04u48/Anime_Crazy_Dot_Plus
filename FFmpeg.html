@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>FFmpeg Web Converter (Fixed Init)</title>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js"></script>
+</head>
+<body>
+  <div id="status">載入中...</div>
+  <script>
+    let ffmpeg;
+    let createFFmpeg, fetchFile;
+
+    function logStatus(msg) {
+      document.getElementById('status').innerText = msg;
+    }
+
+    async function initFFmpeg() {
+      ({ createFFmpeg, fetchFile } = FFmpeg);
+      ffmpeg = createFFmpeg({ log: true });
+      logStatus('正在初始化 FFmpeg...');
+      await ffmpeg.load();
+      logStatus('等待資料傳入...');
+    }
+
+    // 等待 FFmpeg 可用後初始化
+    const checkFFmpegReady = setInterval(() => {
+      if (window.FFmpeg) {
+        clearInterval(checkFFmpegReady);
+        initFFmpeg();
+      }
+    }, 50);
+
+    window.addEventListener('message', async (event) => {
+      if (!event.data || !event.data.command) return;
+
+      const { command, data, fileName } = event.data;
+      if (command === 'convert') {
+        logStatus('正在轉檔...');
+        try {
+          await ffmpeg.FS('writeFile', fileName, new Uint8Array(data));
+
+          const outputName = 'output.mp3';
+          await ffmpeg.run('-i', fileName, '-vn', '-acodec', 'libmp3lame', '-q:a', '3', outputName);
+
+          const outData = ffmpeg.FS('readFile', outputName);
+          const blob = new Blob([outData.buffer], { type: 'audio/mpeg' });
+          const url = URL.createObjectURL(blob);
+
+          logStatus('轉檔完成');
+          window.parent.postMessage({ status: 'done', url, name: outputName }, event.origin);
+        } catch (e) {
+          console.error(e);
+          window.parent.postMessage({ status: 'error', message: e.message }, event.origin);
+          logStatus('轉檔失敗：' + e.message);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
