@@ -2,12 +2,8 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>FFmpeg Web Converter Debug</title>
+  <title>FFmpeg Web Converter (Stable Init)</title>
   <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js"></script>
-  <style>
-    body { font-family: monospace; background: #111; color: #0f0; padding: 10px; }
-    #status { white-space: pre-wrap; }
-  </style>
 </head>
 <body>
   <div id="status">載入中...</div>
@@ -16,57 +12,47 @@
     let createFFmpeg, fetchFile;
 
     function logStatus(msg) {
-      console.log(msg);
-      const statusDiv = document.getElementById('status');
-      statusDiv.textContent += "\n" + msg;
-      statusDiv.scrollTop = statusDiv.scrollHeight;
+      document.getElementById('status').innerText = msg;
     }
 
     async function initFFmpeg() {
-      try {
-        ({ createFFmpeg, fetchFile } = FFmpeg);
-        ffmpeg = createFFmpeg({ log: true, logger: ({ message }) => logStatus(message) });
-        logStatus('正在初始化 FFmpeg...');
-        await ffmpeg.load();
-        logStatus('初始化完成，等待資料傳入...');
-        window.parent.postMessage({ status: 'ready' }, '*');
-      } catch (e) {
-        logStatus('初始化失敗: ' + e.message);
-        console.error(e);
-      }
+      ({ createFFmpeg, fetchFile } = FFmpeg);
+      ffmpeg = createFFmpeg({ log: true });
+      logStatus('正在初始化 FFmpeg...');
+      await ffmpeg.load();
+      logStatus('等待資料傳入...');
     }
 
-    const checkFFmpegReady = setInterval(() => {
-      if (window.FFmpeg) {
-        clearInterval(checkFFmpegReady);
-        initFFmpeg();
+    // 等待 window.FFmpeg 可用後執行 initFFmpeg
+    (async () => {
+      while (!window.FFmpeg) {
+        await new Promise(res => setTimeout(res, 50));
       }
-    }, 50);
+      initFFmpeg();
+    })();
 
     window.addEventListener('message', async (event) => {
       if (!event.data || !event.data.command) return;
+
       const { command, data, fileName } = event.data;
       if (command === 'convert') {
-        logStatus('收到轉檔指令，開始處理...');
+        logStatus('正在轉檔...');
         try {
-          const uint8Data = new Uint8Array(data);
-          await ffmpeg.FS('writeFile', fileName, uint8Data);
-          logStatus(`已寫入檔案 ${fileName}, 開始轉檔...`);
+          await ffmpeg.FS('writeFile', fileName, new Uint8Array(data));
 
           const outputName = 'output.mp3';
           await ffmpeg.run('-i', fileName, '-vn', '-acodec', 'libmp3lame', '-q:a', '3', outputName);
-          logStatus('轉檔完成，讀取輸出檔案...');
 
           const outData = ffmpeg.FS('readFile', outputName);
           const blob = new Blob([outData.buffer], { type: 'audio/mpeg' });
           const url = URL.createObjectURL(blob);
 
-          logStatus('轉檔完成，可下載。');
-          window.parent.postMessage({ status: 'done', url, name: outputName }, '*');
+          logStatus('轉檔完成');
+          window.parent.postMessage({ status: 'done', url, name: outputName }, event.origin);
         } catch (e) {
-          logStatus('轉檔失敗: ' + e.message);
           console.error(e);
-          window.parent.postMessage({ status: 'error', message: e.message }, '*');
+          window.parent.postMessage({ status: 'error', message: e.message }, event.origin);
+          logStatus('轉檔失敗：' + e.message);
         }
       }
     });
