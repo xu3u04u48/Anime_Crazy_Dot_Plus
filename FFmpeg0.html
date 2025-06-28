@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>FFmpeg IFrame Parent Controller</title>
+  <style>
+    body { font-family: sans-serif; padding: 1em; }
+    #preview { margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h2>FFmpeg IFrame Parent Controller</h2>
+  <input type="file" id="fileInput" accept="audio/*,video/*" />
+  <button id="convertBtn">上傳並轉檔</button>
+  <div id="log"></div>
+  <div id="preview"></div>
+  <iframe id="ffmpegFrame" src="iframe.html" style="display:none;"></iframe>
+
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const log = (msg) => document.getElementById('log').innerText = msg;
+
+    const iframe = document.getElementById('ffmpegFrame').contentWindow;
+
+    convertBtn.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        log('請先選擇檔案');
+        return;
+      }
+      log('正在讀取檔案...');
+
+      const arrayBuffer = await file.arrayBuffer();
+
+      log('傳送檔案至 IFrame 進行轉檔...');
+      iframe.postMessage({
+        command: 'convert',
+        data: arrayBuffer,
+        fileName: file.name
+      }, '*');
+    });
+
+    window.addEventListener('message', (event) => {
+      if (event.data.status === 'done') {
+        log('轉檔完成，準備下載...');
+        const a = document.createElement('a');
+        a.href = event.data.url;
+        a.download = event.data.name;
+        a.textContent = '點此下載 ' + event.data.name;
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+        preview.appendChild(a);
+      } else if (event.data.status === 'error') {
+        log('轉檔失敗：' + event.data.message);
+      }
+    });
+  </script>
+</body>
+</html>
+
