@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>FFmpeg Web Converter (Ready Fixed)</title>
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js"></script>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.15/dist/umd/ffmpeg.js"></script>
   <style>
     body { font-family: monospace; background: #111; color: #0f0; padding: 10px; }
     #status { white-space: pre-wrap; }
@@ -25,7 +25,7 @@
 
     async function initFFmpeg() {
       try {
-        ({ createFFmpeg, fetchFile } = FFmpeg);
+        ({ createFFmpeg, fetchFile } = FFmpegWASM);
         ffmpeg = createFFmpeg({ log: true, logger: ({ message }) => logStatus(message) });
         logStatus('正在初始化 FFmpeg...');
         await ffmpeg.load();
