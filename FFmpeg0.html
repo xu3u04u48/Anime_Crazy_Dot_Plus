@@ -2,60 +2,71 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>FFmpeg IFrame Parent Controller</title>
+  <title>FFmpeg IFrame Parent Controller (Fixed)</title>
   <style>
-    body { font-family: sans-serif; padding: 1em; }
+    body { font-family: sans-serif; padding: 1em; background: #111; color: #0f0; }
     #preview { margin-top: 1em; }
+    button, input { margin: 0.5em 0; }
   </style>
 </head>
 <body>
-  <h2>FFmpeg IFrame Parent Controller</h2>
+  <h2>FFmpeg IFrame Parent Controller (Fixed)</h2>
   <input type="file" id="fileInput" accept="audio/*,video/*" />
   <button id="convertBtn">上傳並轉檔</button>
-  <div id="log"></div>
+  <div id="log">初始化中...</div>
   <div id="preview"></div>
   <iframe id="ffmpegFrame" src="FFmpeg.html" style="display:none;"></iframe>
 
   <script>
     const fileInput = document.getElementById('fileInput');
     const convertBtn = document.getElementById('convertBtn');
-    const log = (msg) => document.getElementById('log').innerText = msg;
+    const log = (msg) => {
+      console.log(msg);
+      document.getElementById('log').innerText = msg;
+    };
+    const preview = document.getElementById('preview');
+    const iframeEl = document.getElementById('ffmpegFrame');
+    const iframe = iframeEl.contentWindow;
 
-    const iframe = document.getElementById('ffmpegFrame').contentWindow;
+    let iframeReady = false;
+
+    window.addEventListener('message', (event) => {
+      if (event.data.status === 'ready') {
+        iframeReady = true;
+        log('✅ FFmpeg IFrame 初始化完成，可以開始轉檔。');
+      } else if (event.data.status === 'done') {
+        log('✅ 轉檔完成，準備下載...');
+        const a = document.createElement('a');
+        a.href = event.data.url;
+        a.download = event.data.name;
+        a.textContent = '點此下載 ' + event.data.name;
+        preview.innerHTML = '';
+        preview.appendChild(a);
+      } else if (event.data.status === 'error') {
+        log('❌ 轉檔失敗：' + event.data.message);
+      }
+    });
 
     convertBtn.addEventListener('click', async () => {
       const file = fileInput.files[0];
       if (!file) {
-        log('請先選擇檔案');
+        log('❌ 請先選擇檔案');
         return;
       }
-      log('正在讀取檔案...');
-
+      if (!iframeReady) {
+        log('⚠️ FFmpeg IFrame 尚未初始化完成，請稍後再試。');
+        return;
+      }
+      log('📥 正在讀取檔案...');
       const arrayBuffer = await file.arrayBuffer();
 
-      log('傳送檔案至 IFrame 進行轉檔...');
+      log('📤 傳送檔案至 IFrame 進行轉檔...');
       iframe.postMessage({
         command: 'convert',
         data: arrayBuffer,
         fileName: file.name
       }, '*');
     });
-
-    window.addEventListener('message', (event) => {
-      if (event.data.status === 'done') {
-        log('轉檔完成，準備下載...');
-        const a = document.createElement('a');
-        a.href = event.data.url;
-        a.download = event.data.name;
-        a.textContent = '點此下載 ' + event.data.name;
-        const preview = document.getElementById('preview');
-        preview.innerHTML = '';
-        preview.appendChild(a);
-      } else if (event.data.status === 'error') {
-        log('轉檔失敗：' + event.data.message);
-      }
-    });
   </script>
 </body>
 </html>
-
