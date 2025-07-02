@@ -62,10 +62,20 @@
 
       log('📤 傳送檔案至 IFrame 進行轉檔...');
       iframe.postMessage({
-        command: 'convert',
-        data: arrayBuffer,
-        fileName: file.name
-      }, '*');
+                command: 'audio_op_convert',
+                data: [{ data: arrayBuffer, name: 'audio.wav' }],
+                outputName: 'output.wav',
+                type: 'audio/wav',
+                totalDuration: totalDuration,
+                Convert_arguments: [
+                    '-i', 'audio.wav',
+                    '-vn',
+                    '-acodec', 'pcm_s16le',
+                    '-ar', '44100',
+                    '-ac', '2',
+                    'output.wav'
+                ]
+            }, '*');
     });
   </script>
 </body>
