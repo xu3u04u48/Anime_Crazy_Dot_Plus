@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>動畫瘋·Plus - 版本更新</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: sans-serif;
+      background: #1f2022; color: white;
+    }
+    .container {
+      display: flex; flex-direction: column; width: 100%; height: 100%;
+    }
+    .header-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 20px; background: #2e2f31; color: white;
+    }
+    .content_head_box {
+      display: flex; align-items: center;
+    }
+    .content_head_box .img { margin-right: 10px; }
+    .content_head_box .title { display: flex; font-size: 18px; }
+    .content_head_box .title span {
+      padding: 2px 6px; font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .back-button {
+      align-self: flex-start; margin: 20px 0 10px 0; padding: 6px 12px;
+      background: #2e2f31; color: #fff; border: none;
+      border-radius: 4px; cursor: pointer;
+    }
+    .update-content {
+      flex: 1; padding: 20px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 12px;
+      font-size: 0.95rem; line-height: 1.6;
+    }
+    h2 { font-size: 1.5rem; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-bar">
+      <div class="content_head_box">
+        <div class="img">
+          <img src="https://xu3u04u48.github.io/Anime_Crazy_Dot_Plus/img/48.png" width="36px" height="36px">
+        </div>
+        <div class="title">
+          <span style="color: #fff;background: #56b7c1;">動</span>
+          <span style="color: #fff;background: #EB9D3D;transform: translateY(-2px);display: inline-block;">畫</span>
+          <span style="color: #fff;background: #E57B94;transform: rotate(-5deg);display: inline-block;">瘋</span>
+          <span style="margin-left: 2px;">·Plus</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="update-content">
+      <h2>版本更新-歷史紀錄</h2>
+      <div><b>3.9.1</b> 修正在高解析度下截圖時造成擷取畫面不完整、修正過濾關鍵字(擴充版)在刪除最後一個關鍵字時沒更新播放器內的彈幕、其它小修改。</div>
+      <div><b>3.9.0</b> 新增過濾關鍵字(擴充版)、優化截圖&錄影工具、新增截圖錄影加入資訊功能，此功能內含節目名稱及目前影片播放時間、此版本可在非全螢幕下截圖時解析度為1920x1080、其它小修改。</div>
+      <div><b>3.8.0</b> 修正真●暗黑模式CSS、移除空降座標功能、空降快捷鈕更名為時間跳躍，並可自定義想跳躍的時間點、修正自動同意分級標識警告會重複執行的問題，導致非付費方案用戶會看到黑畫面廣告或重複廣告播放、修正取消右鍵搜尋後重新開啟瀏覽器還能右鍵搜尋的問題、其它小修改。</div>
+      <div><b>3.7.1</b> 新增自訂顯示反白右鍵搜尋，點擊插件icon設定、修正有時自動同意分級標識警告失效的問題、空降座標及影片播放器右鍵新增空降快捷鈕、其它小修改。</div>
+      <div><b>3.7.0</b> 新增QR Code方便在動畫瘋APP觀看、修正使用網頁全螢幕時彈幕跑出位置錯誤、修正截圖按鍵&彈幕開關按鍵可重複設定同個按鍵、其它小修改。</div>
+      <div><b>3.6.3</b> 新增反白右鍵搜尋動畫瘋，反白要搜尋的關鍵字點擊滑鼠右鍵 > 動畫瘋搜尋 、新增彈幕戰力儀 (測試版)、加入空降足跡至彈幕戰力儀、新增彈幕開關按鍵設定、其它小修改。</div>
+      <div><b>3.5.0</b> 修正有時自動同意分級標識警告失效的問題、其它小修改。</div>
+      <div><b>3.4.1</b> 修改FB評論插件的網址權限、修改FB評論插件暗黑模式CSS、需啟動插件的FB網站存取權，影片下方的FB評論插件才能套用真●闇黑模式。</div>
+      <div><b>3.4.0</b> 強化真●闇黑模式功能：此版本的FB評論插件也能套用真●闇黑模式了、其它小修改。</div>
+      <div><b>3.3.1</b> 因動畫瘋更新彈幕系統：修正滑鼠右鍵選取彈幕失靈，修正開啟截圖&錄影加入彈幕時呈現的彈幕位置錯誤、其它小修改。</div>
+      <div><b>3.3.0</b> 自動切換至下一集可以設定選擇是否開啟倒數秒數、新增動畫瘋影片的播放訊息在Chrome瀏覽器及Windows10使用者界面的全局媒體控制台、修改部分錄影功能程式碼、修改部分暗黑模式CSS、其它小修改。</div>
+      <div><b>3.2.0</b> 錯誤修正。</div>
+      <div><b>3.1.0</b> 因動畫瘋改版而做的更新，修正外掛闇黑模式並更名為真●闇黑模式，將套用動畫瘋上的原生闇黑模式,可使用動畫瘋上的闇黑模式開關設定、變動截圖工具位置、其它小細節修正。</div>
+      <div><b>3.0.0</b> 更新程式架構、修改UI設計、修改網頁全螢幕設計、更換錄影功能、新增滑鼠觸碰滾動彈幕時，該條彈幕會停止滾動、截圖系統新增清除全部、全部下載功能、刪除可拖移彈幕輸入框、空降足跡新增時間戳原文。</div>
+      <div><b>2.4.0</b> 這次的更新可以使網頁全螢幕在跳下一集時維持全螢幕狀態了，修復錄影功能無法正常運作。</div>
+      <div><b>2.3.2</b> 修復截圖按鍵設定無法使用新的設定值。</div>
+      <div><b>2.3.1</b> 新增截圖預覽。</div>
+      <div><b>2.3.0</b> 因動畫瘋彈幕改版而做的更新，此版本可以右鍵選取彈幕消音用戶和檢舉彈幕了，修改彈幕過濾可自行編輯再過濾、其他問題修正。</div>
+      <div><b>2.2.0</b> 可在影片上右鍵選取彈幕，此版本已加入阻擋擋廣告提示，修改闇黑模式為正式版並修正一些CSS。</div>
+      <div><b>2.1.1</b> 新增闇黑模式(測試版) 點擊插件icon啟動。</div>
+      <div><b>2.0.2</b> 瀏覽器版本需80(含)以上才可使用錄影功能。</div>
+      <div><b>2.0.1</b> 修改程式結構、修改截圖大小最大為1920x1080、修改錄影功能，此版本可輸出有聲影片。</div>
+      <div><b>1.22.2</b> 新增自動下載截圖。</div>
+      <div><b>1.22.0</b> 新增拖移彈幕輸入框。</div>
+      <div><b>1.21.0</b> 因動畫瘋播放器改版做緊急更新，刪除plus插件可在全螢幕發送彈幕、刪除plus插件影片速度、其他錯誤修正。</div>
+      <div><b>1.20.0</b> 新增錄影功能，輸出為無聲影片。</div>
+      <div><b>1.19.0</b> 新增影片截圖功能。</div>
+      <div><b>1.18.0</b> 新增子母畫面按鈕。</div>
+      <div><b>1.17.0</b> 新增自動全螢幕(測試版) 點擊插件icon啟動。</div>
+      <div><b>1.16.0</b> 新增Chrome外掛功能表 新增關閉外掛&在Beta版使用外掛功能。</div>
+      <div><b>1.15.0</b> Google chrome外掛 開發完成，此版本刪除分級鎖定。</div>
+    </div>
+  </div>
+</body>
+</html>
